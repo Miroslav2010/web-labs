@@ -1,0 +1,69 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>WP lab - Confirmation Info</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+        table {
+            width:100%;
+        }
+        table, td, th {
+            border: 1px solid black;
+            padding: 3px 2px;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <header>
+        <h1>Balloon Order page - Order confirmation </h1>
+    </header>
+    <table>
+        <tr>
+            <th colspan="2">
+                Your Order Status
+            </th>
+        </tr>
+        <tr>
+            <td><b>Client Name </b></td>
+            <td><span th:text="${session.clientName}"></span></td>
+        </tr>
+        <tr>
+            <td><b>Client Address </b></td>
+            <td><span th:text="${session.clientAddress}"></span></td>
+        </tr>
+        <tr>
+            <td><b>Client IP Address</b></td>
+            <td><span th:text="${ipaddress}"></span></td>
+        </tr>
+        <tr>
+            <td><b>Client Browser</b></td>
+            <td><span th:text="${clientAgent}"></span></td>
+        </tr>
+        <tr>
+            <td><b>Balloon Color </b></td>
+            <td><span th:text="${session.chosenColor}"></span></td>
+        </tr>
+        <tr>
+            <td><b>Balloon Size </b></td>
+            <td><span th:text="${session.chosenSize}"></span></td>
+        </tr>
+    </table>
+    <div>
+        <a href="/logout">Log out</a>
+        <form th:action="@{/usersOrder}" th:method="GET">
+            <button type="submit"><i>Finish</i></button>
+        </form>
+        <form th:action="@{/balloons}" th:method="GET">
+            <button type="submit"><i>Back</i></button>
+        </form>
+    </div>
+
+
+
+</section>
+</body>
+</html>

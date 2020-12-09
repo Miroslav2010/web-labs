@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>WP lab - Confirmation Info</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+        table {
+            width:100%;
+        }
+        table, td, th {
+            border: 1px solid black;
+            padding: 3px 2px;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <header>
+        <h1>Balloon Order page - Order confirmation </h1>
+    </header>
+    <table>
+        <tr>
+            <th colspan="2">
+                Your Order Status
+            </th>
+        </tr>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.getBalloonColor()}"></td>
+            <td th:text="${order.getBalloonSize()}"></td>
+            <td th:text="${order.getClientName()}"></td>
+            <td th:text="${order.getClientAddress()}"></td>
+        </tr>
+
+    </table>
+    <a href="/logout">Log out</a>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Balloon Order page - Balloon Size</title>
+
+</head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<body>
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Balloon Shop</h1>
+        <h3 class="jumbotron-heading">All products</h3>
+    </div>
+</section>
+<div>
+
+    <div class="container mb-4">
+        <div class="active-cyan-4 mb-4">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="text">
+        </div>
+        <a href="" onclick="this.href='/search?text='+document.getElementById('text').value" class="btn btn-sm btn-info"><i class="fa fa-trash">Search</i></a>
+        <h2>Choose balloon color:</h2>
+        <div class="row">
+            <div class="col-8" th:if="${listBalloons.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Balloon name</th>
+                            <th scope="col">Balloon description</th>
+                            <th scope="col">Manufacturer</th>
+                            <th scope="col">Type</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="balloon : ${listBalloons}">
+                            <td th:text="${balloon.getName()}"></td>
+                            <td th:text="${balloon.getDescription()}"></td>
+                            <td th:text="${balloon.getManufacturer() != null}
+                            ? ${balloon.getManufacturer().getName()} : 'No Manufacturer'"></td>
+                            <td th:text="${balloon.type.toString()}"></td>
+                            <td class="text-right">
+                                <form th:action="@{'/delete/{id}' (id=${balloon.getId()})}" th:method="DELETE">
+                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
+                                </form>
+                                <a th:href="@{'/edit-form/{id}' (id=${balloon.getId()})}"
+                                   class="btn btn-sm btn-info"><i class="fa fa-trash">Edit</i></a>
+                                <form th:action="@{'/redirectToSize/{name}' (name=${balloon.name})}" th:method="POST">
+                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-trash">Select</i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-4">
+                <table class="table table-striped">
+                    <tr>
+                        <th colspan="2">
+                            Your Order Status
+                        </th>
+                    </tr>
+                    <tr>
+                        <td><b>Balloon Type </b></td>
+                        <td><span th:text="${session.chosenColor}"></span></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col mb-3">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <a href="/add-balloon" class="btn btn-block btn-dark">Add new Balloon</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div th:each="balloon: ${listBalloons}">
+        <div th:text="${balloon.name}"> </div>
+        <div th:text="${balloon.description}"> </div>
+        <div th:text="${balloon.type.toString()}"> </div>
+        <div th:text="${balloon.getManufacturer() != null}
+                            ? ${balloon.getManufacturer().getName()} : 'No Manufacturer'"></div>
+
+        <form th:action="@{'/balloons/delete/{id}' (id=${balloon.getId()})}" th:method="DELETE">
+            <button type="submit"><i>Delete</i></button>
+        </form>
+        <form th:action="@{'/balloons/redirectToSize/{name}' (name=${balloon.name})}" th:method="POST">
+            <button type="submit"><i>Select</i></button>
+        </form>
+        <a th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}">Edit</a>
+
+    </div>
+    -->
+    <br/>
+</div>
+
+<!-- Footer -->
+<footer class="text-black-50 mt-xl-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-lg-4 col-xl-3">
+                <h5>About</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <p class="mb-0">
+                    Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant
+                    impression.
+                </p>
+            </div>
+
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
+                <h5>Informations</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <ul class="list-unstyled">
+                    <li><a href="">Link 1</a></li>
+                    <li><a href="">Link 2</a></li>
+                    <li><a href="">Link 3</a></li>
+                    <li><a href="">Link 4</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto">
+                <h5>Others links</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <ul class="list-unstyled">
+                    <li><a href="">Link 1</a></li>
+                    <li><a href="">Link 2</a></li>
+                    <li><a href="">Link 3</a></li>
+                    <li><a href="">Link 4</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3">
+                <h5>Contact</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <ul class="list-unstyled">
+                    <li><i class="fa fa-home mr-2"></i> My company</li>
+                    <li><i class="fa fa-envelope mr-2"></i> email@example.com</li>
+                    <li><i class="fa fa-phone mr-2"></i> + 33 12 14 15 16</li>
+                    <li><i class="fa fa-print mr-2"></i> + 33 12 14 15 16</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+</body>
+</html>
