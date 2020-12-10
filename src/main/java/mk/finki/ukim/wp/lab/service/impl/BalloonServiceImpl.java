@@ -11,6 +11,7 @@ import mk.finki.ukim.wp.lab.repository.jpa.ManufacturerRepository;
 import mk.finki.ukim.wp.lab.service.BalloonService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,7 @@ public class BalloonServiceImpl implements BalloonService {
         return this.balloonRepository.save(new Balloon(name,description, manufacturer,type));
     }
     @Override
+    @Transactional
     public Balloon edit(Long id, String name, String description, Long manufacturerId, Type type) {
 
         Manufacturer manufacturer = this.manufacturerRepository.findById(manufacturerId)
