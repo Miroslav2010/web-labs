@@ -28,12 +28,8 @@
             </th>
         </tr>
         <tr>
-            <td><b>Client Name </b></td>
-            <td><span th:text="${session.clientName}"></span></td>
-        </tr>
-        <tr>
-            <td><b>Client Address </b></td>
-            <td><span th:text="${session.clientAddress}"></span></td>
+            <td><b>Username </b></td>
+            <td><span th:text="${session.getAttribute('user').getUsername()}"></span></td>
         </tr>
         <tr>
             <td><b>Client IP Address</b></td>
@@ -57,7 +53,7 @@
         <form th:action="@{/usersOrder}" th:method="GET">
             <button type="submit"><i>Finish</i></button>
         </form>
-        <form th:action="@{/balloons}" th:method="GET">
+        <form th:action="@{/}" th:method="GET">
             <button type="submit"><i>Back</i></button>
         </form>
     </div>

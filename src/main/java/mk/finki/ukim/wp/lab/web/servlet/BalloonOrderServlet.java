@@ -1,4 +1,5 @@
 package mk.finki.ukim.wp.lab.web.servlet;
+import mk.finki.ukim.wp.lab.models.User;
 import mk.finki.ukim.wp.lab.service.BalloonService;
 import mk.finki.ukim.wp.lab.service.OrderService;
 import org.thymeleaf.context.WebContext;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "BalloonOrderServlet", urlPatterns = "/BalloonOrder")
+@WebServlet(name = "BalloonOrderServlet", urlPatterns = "/servlet/BalloonOrder")
 public class BalloonOrderServlet extends HttpServlet {
     private final BalloonService balloonService;
     private final OrderService orderService;
@@ -33,13 +34,10 @@ public class BalloonOrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String clientName=(String)req.getParameter("clientName");
-        req.getSession().setAttribute("clientName",clientName);
-        String clientAddress=(String)req.getParameter("clientAddress");
-        req.getSession().setAttribute("clientAddress",clientAddress);
+
         String color=(String) req.getSession().getAttribute("chosenColor");
         String size=(String) req.getSession().getAttribute("chosenSize");
-        orderService.placeOrder(color,size,clientAddress,clientName);
-        resp.sendRedirect("/ConfirmationInfo");
+        orderService.placeOrder(color,size,(User) req.getSession().getAttribute("user"));
+        resp.sendRedirect("/servlet/ConfirmationInfo");
     }
 }

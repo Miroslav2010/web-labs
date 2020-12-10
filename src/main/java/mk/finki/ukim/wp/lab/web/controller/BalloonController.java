@@ -1,10 +1,10 @@
 package mk.finki.ukim.wp.lab.web.controller;
 
-import mk.finki.ukim.wp.lab.models.Balloon;
-import mk.finki.ukim.wp.lab.models.Manufacturer;
-import mk.finki.ukim.wp.lab.models.Type;
+import mk.finki.ukim.wp.lab.models.*;
 import mk.finki.ukim.wp.lab.service.BalloonService;
 import mk.finki.ukim.wp.lab.service.ManufacturerService;
+import mk.finki.ukim.wp.lab.service.OrderService;
+import mk.finki.ukim.wp.lab.service.ShoppingCartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +19,14 @@ import java.util.List;
 public class BalloonController {
     private final BalloonService balloonService;
     private final ManufacturerService manufacturerService;
+    private final OrderService orderService;
+    private final ShoppingCartService shoppingCartService;
 
-    public BalloonController(BalloonService balloonService, ManufacturerService manufacturerService) {
+    public BalloonController(BalloonService balloonService, ManufacturerService manufacturerService, OrderService orderService, ShoppingCartService shoppingCartService) {
         this.balloonService = balloonService;
         this.manufacturerService = manufacturerService;
+        this.orderService = orderService;
+        this.shoppingCartService = shoppingCartService;
     }
 
     @GetMapping
@@ -104,4 +108,20 @@ public class BalloonController {
         this.balloonService.deleteById(id);
         return "redirect:/";
     }
+
+    @GetMapping("/selectBalloon")
+    public String getSelectBalloonSize(){
+        return "selectBalloonSize";
+    }
+
+    @PostMapping("/selectBalloon")
+    public void postSelectBalloon(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        User user = (User)request.getSession().getAttribute("user");
+        Order order = orderService.placeOrder((String)request.getSession().getAttribute("chosenColor"),
+                (String)request.getParameter("size"),user);
+        shoppingCartService.addOrderToShoppingCart(user.getUsername(), order.getOrderId());
+        response.sendRedirect("/");
+    }
+
+
 }

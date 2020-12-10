@@ -11,7 +11,7 @@ public interface BalloonService {
     List<Balloon> searchByNameOrDescription(String text);
     List<Balloon> searchByType(String text);
     Optional<Balloon> findById(Long id);
-    Optional<Balloon> add(String name, String description, Long manufacturerId, Type tip);
-    Optional<Balloon> edit(Long id, String name, String description, Long manufacturerId,Type type);
+    Balloon add(String name, String description, Long manufacturerId, Type tip);
+    Balloon edit(Long id, String name, String description, Long manufacturerId,Type type);
     void deleteById(Long id);
 }

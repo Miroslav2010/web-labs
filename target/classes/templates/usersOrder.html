@@ -30,8 +30,7 @@
         <tr th:each="order : ${orders}">
             <td th:text="${order.getBalloonColor()}"></td>
             <td th:text="${order.getBalloonSize()}"></td>
-            <td th:text="${order.getClientName()}"></td>
-            <td th:text="${order.getClientAddress()}"></td>
+            <td th:text="${order.getUser().getUsername()}"></td>
         </tr>
 
     </table>

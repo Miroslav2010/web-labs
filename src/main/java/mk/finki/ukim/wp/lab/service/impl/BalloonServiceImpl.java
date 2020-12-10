@@ -4,8 +4,10 @@ import mk.finki.ukim.wp.lab.models.Balloon;
 import mk.finki.ukim.wp.lab.models.Manufacturer;
 import mk.finki.ukim.wp.lab.models.Type;
 import mk.finki.ukim.wp.lab.models.exceptions.ManufacturerNotFoundException;
-import mk.finki.ukim.wp.lab.repository.BalloonRepository;
-import mk.finki.ukim.wp.lab.repository.ManufacturerRepository;
+import mk.finki.ukim.wp.lab.repository.impl.InMemoryBalloonRepository;
+import mk.finki.ukim.wp.lab.repository.impl.InMemoryManufacturerRepository;
+import mk.finki.ukim.wp.lab.repository.jpa.BalloonRepository;
+import mk.finki.ukim.wp.lab.repository.jpa.ManufacturerRepository;
 import mk.finki.ukim.wp.lab.service.BalloonService;
 import org.springframework.stereotype.Service;
 
@@ -24,30 +26,31 @@ public class BalloonServiceImpl implements BalloonService {
 
     @Override
     public List<Balloon> listAll() {
-        return balloonRepository.findAllBalloon();
+        return balloonRepository.findAll();
     }
 
     @Override
     public List<Balloon> searchByNameOrDescription(String text) {
-        return balloonRepository.findByNameOrDescription(text);
+        return balloonRepository.findAllByNameOrDescription(text,text);
     }
     @Override
     public Optional<Balloon> findById(Long id) {
         return this.balloonRepository.findById(id);
     }
     @Override
-    public Optional<Balloon> add(String name, String description, Long manufacturerId, Type type) {
+    public Balloon add(String name, String description, Long manufacturerId, Type type) {
 
         Manufacturer manufacturer = this.manufacturerRepository.findById(manufacturerId)
                 .orElseThrow(() -> new ManufacturerNotFoundException(manufacturerId));
-        return this.balloonRepository.add(name,description, manufacturer,type);
+        return this.balloonRepository.save(new Balloon(name,description, manufacturer,type));
     }
     @Override
-    public Optional<Balloon> edit(Long id, String name, String description, Long manufacturerId, Type type) {
+    public Balloon edit(Long id, String name, String description, Long manufacturerId, Type type) {
 
         Manufacturer manufacturer = this.manufacturerRepository.findById(manufacturerId)
                 .orElseThrow(() -> new ManufacturerNotFoundException(manufacturerId));
-        return this.balloonRepository.edit(id, name,description, manufacturer,type);
+        this.balloonRepository.deleteById(id);
+        return this.balloonRepository.save(new Balloon(name,description, manufacturer,type));
     }
     @Override
     public void deleteById(Long id) {
@@ -55,6 +58,6 @@ public class BalloonServiceImpl implements BalloonService {
     }
     @Override
     public List<Balloon> searchByType(String text){
-        return balloonRepository.searchByType(text);
+        return balloonRepository.findByType(text);
     }
 }

@@ -28,12 +28,8 @@
             </th>
         </tr>
         <tr>
-            <td><b>Client Name </b></td>
-            <td><span th:text="${session.clientName}"></span></td>
-        </tr>
-        <tr>
-            <td><b>Client Address </b></td>
-            <td><span th:text="${session.clientAddress}"></span></td>
+            <td><b>Username </b></td>
+            <td><span th:text="${session.getAttribute('user').getUsername()}"></span></td>
         </tr>
         <tr>
             <td><b>Client IP Address</b></td>
