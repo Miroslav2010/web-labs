@@ -58,6 +58,7 @@ public class BalloonServiceImpl implements BalloonService {
     }
     @Override
     public List<Balloon> searchByType(String text){
-        return balloonRepository.findByType(text);
+        List<Balloon> result = balloonRepository.findByType(Type.valueOf(text));
+        return result;
     }
 }

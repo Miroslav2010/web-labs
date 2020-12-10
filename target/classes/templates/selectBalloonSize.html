@@ -8,6 +8,41 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">BALLOON SHOP</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
+            <ul class="navbar-nav m-auto">
+                <li class="nav-item m-auto">
+                    <a class="nav-link active" href="/">Home</a>
+                </li>
+                <li class="nav-item m-auto">
+                    <a class="nav-link active" href="/usersOrder">Orders</a>
+                </li>
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0">
+                <div class="input-group input-group-sm">
+                    <input class="form-control tral" type="text" placeholder="Search" aria-label="Search" id="text">
+                    <div class="input-group-append">
+                        <a href="" onclick="this.href='/search?text='+document.getElementById('text').value" class="btn btn-sm btn-info"><i class="fa fa-trash">Search</i></a>
+                    </div>
+                </div>
+                <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">
+                    <i class="fa fa-shopping-cart"></i> Cart
+                </a>
+                <a class="btn btn-light btn-sm ml-3" href="/logout">
+                    <i class="fa fa-shopping-cart"></i> Logout
+                </a>
+            </form>
+        </div>
+    </div>
+</nav>
 <section class="jumbotron text-center">
     <div class="container">
         <h1 class="jumbotron-heading">Balloon Shop</h1>

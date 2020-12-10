@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface BalloonRepository extends JpaRepository<Balloon,Long> {
     List<Balloon> findAllByNameOrDescription(String name,String description);
-    List<Balloon> findByType(String type);
+    List<Balloon> findByType(Type type);
 }

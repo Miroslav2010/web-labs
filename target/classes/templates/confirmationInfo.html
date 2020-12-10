@@ -2,64 +2,95 @@
 <head>
     <meta charset="utf-8">
     <title>WP lab - Confirmation Info</title>
-    <style type="text/css">
-        body {
-            width: 800px;
-            margin: auto;
-        }
-        table {
-            width:100%;
-        }
-        table, td, th {
-            border: 1px solid black;
-            padding: 3px 2px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-<section>
-    <header>
-        <h1>Balloon Order page - Order confirmation </h1>
-    </header>
-    <table>
-        <tr>
-            <th colspan="2">
-                Your Order Status
-            </th>
-        </tr>
-        <tr>
-            <td><b>Username </b></td>
-            <td><span th:text="${session.getAttribute('user').getUsername()}"></span></td>
-        </tr>
-        <tr>
-            <td><b>Client IP Address</b></td>
-            <td><span th:text="${ipaddress}"></span></td>
-        </tr>
-        <tr>
-            <td><b>Client Browser</b></td>
-            <td><span th:text="${clientAgent}"></span></td>
-        </tr>
-        <tr>
-            <td><b>Balloon Color </b></td>
-            <td><span th:text="${session.chosenColor}"></span></td>
-        </tr>
-        <tr>
-            <td><b>Balloon Size </b></td>
-            <td><span th:text="${session.chosenSize}"></span></td>
-        </tr>
-    </table>
-    <div>
-        <a href="/logout">Log out</a>
-        <form th:action="@{/usersOrder}" th:method="GET">
-            <button type="submit"><i>Finish</i></button>
-        </form>
-        <form th:action="@{/}" th:method="GET">
-            <button type="submit"><i>Back</i></button>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">BALLOON SHOP</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
+            <ul class="navbar-nav m-auto">
+                <li class="nav-item m-auto">
+                    <a class="nav-link active" href="/">Home</a>
+                </li>
+                <li class="nav-item m-auto">
+                    <a class="nav-link active" href="/usersOrder">Orders</a>
+                </li>
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0">
+                <div class="input-group input-group-sm">
+                    <input class="form-control tral" type="text" placeholder="Search" aria-label="Search" id="text">
+                    <div class="input-group-append">
+                        <a href="" onclick="this.href='/search?text='+document.getElementById('text').value" class="btn btn-sm btn-info"><i class="fa fa-trash">Search</i></a>
+                    </div>
+                </div>
+                <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">
+                    <i class="fa fa-shopping-cart"></i> Cart
+                </a>
+                <a class="btn btn-light btn-sm ml-3" href="/logout">
+                    <i class="fa fa-shopping-cart"></i> Logout
+                </a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Balloon Shop</h1>
+        <h3 class="jumbotron-heading">Confirmation</h3>
+    </div>
+</section>
+
+<h2>Choose balloon color:</h2>
+<div class="row">
+    <div class="col-8">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tr>
+                    <th colspan="2">
+                        Your Order Status
+                    </th>
+                </tr>
+                <tr>
+                    <td><b>Username </b></td>
+                    <td><span th:text="${session.user.getUsername()}"></span></td>
+                </tr>
+                <tr>
+                    <td><b>Client IP Address</b></td>
+                    <td><span th:text="${ipaddress}"></span></td>
+                </tr>
+                <tr>
+                    <td><b>Client Browser</b></td>
+                    <td><span th:text="${clientAgent}"></span></td>
+                </tr>
+                <tr>
+                    <td><b>Balloon Color </b></td>
+                    <td><span th:text="${session.chosenColor}"></span></td>
+                </tr>
+                <tr>
+                    <td><b>Balloon Size </b></td>
+                    <td><span th:text="${session.chosenSize}"></span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-8">
+        <form th:action="@{/usersOrder/confirm}" th:method="POST">
+            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-trash">Confirm</i></button>
         </form>
     </div>
-
-
-
-</section>
+</div>
 </body>
 </html>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 @RequestMapping("/")
@@ -30,7 +31,9 @@ public class BalloonController {
     }
 
     @GetMapping
-    public String getBalloonsPage(@RequestParam(required = false) String error, Model model){
+    public String getBalloonsPage(@RequestParam(required = false) String error, Model model, HttpServletRequest request){
+        request.getSession().setAttribute("chosenColor","");
+        request.getSession().setAttribute("chosenSize","");
         if(error!=null && !error.isEmpty()){
             model.addAttribute("hasError",true);
             model.addAttribute("error",error);
@@ -40,7 +43,9 @@ public class BalloonController {
     }
 
     @GetMapping("/search")
-    public String searchBalloons(@RequestParam String text,Model model){
+    public String searchBalloons(@RequestParam String text,Model model,HttpServletRequest request){
+        request.getSession().setAttribute("chosenColor","");
+        request.getSession().setAttribute("chosenSize","");
         if(text!= null && !text.isEmpty()){
             try{
                 if(text.length()==1){
@@ -115,12 +120,9 @@ public class BalloonController {
     }
 
     @PostMapping("/selectBalloon")
-    public void postSelectBalloon(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        User user = (User)request.getSession().getAttribute("user");
-        Order order = orderService.placeOrder((String)request.getSession().getAttribute("chosenColor"),
-                (String)request.getParameter("size"),user);
-        shoppingCartService.addOrderToShoppingCart(user.getUsername(), order.getOrderId());
-        response.sendRedirect("/");
+    public void postSelectBalloon(@RequestParam String size, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.getSession().setAttribute("chosenSize",size);
+        response.sendRedirect("/usersOrder/confirm");
     }
 
 

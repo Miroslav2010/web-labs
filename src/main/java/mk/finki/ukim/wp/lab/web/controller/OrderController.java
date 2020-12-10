@@ -7,6 +7,7 @@ import mk.finki.ukim.wp.lab.service.ShoppingCartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,9 +20,11 @@ import java.util.List;
 @RequestMapping("/usersOrder")
 public class OrderController {
     private final OrderService orderService;
+    private final ShoppingCartService shoppingCartService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, ShoppingCartService shoppingCartService) {
         this.orderService = orderService;
+        this.shoppingCartService = shoppingCartService;
     }
 
     @GetMapping
@@ -33,5 +36,21 @@ public class OrderController {
         List<Order> orders = this.orderService.getOrders();
         model.addAttribute("orders", orders);
         return "usersOrder";
+    }
+
+    @GetMapping("/confirm")
+    public String getConfirmPage(HttpServletRequest request,Model model){
+        model.addAttribute("ipaddress",request.getRemoteAddr());
+        model.addAttribute("clientAgent",request.getHeader("User-Agent"));
+        return "confirmationInfo";
+    }
+
+    @PostMapping("/confirm")
+    public void confirm(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        User user = (User)request.getSession().getAttribute("user");
+        Order order = orderService.placeOrder((String)request.getSession().getAttribute("chosenColor"),
+                (String)request.getSession().getAttribute("chosenSize"),user);
+        shoppingCartService.addOrderToShoppingCart(user.getUsername(), order.getOrderId());
+        response.sendRedirect("/");
     }
 }
