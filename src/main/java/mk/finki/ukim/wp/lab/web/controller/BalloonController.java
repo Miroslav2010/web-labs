@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.http.HttpRequest;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequestMapping("/")
 @Controller
@@ -125,5 +128,32 @@ public class BalloonController {
         response.sendRedirect("/usersOrder/confirm");
     }
 
+    @GetMapping("/advancedSearch")
+    public String advanceSearchBalloons(@RequestParam String text,Model model,HttpServletRequest request){
+        request.getSession().setAttribute("chosenColor","");
+        request.getSession().setAttribute("chosenSize","");
+        if(text!= null && !text.isEmpty()){
+            try{
+                List<Balloon> fromType = new ArrayList<>();
+                if(text.length()==1)
+                    fromType = this.balloonService.searchByType(text);
+                List<Balloon> fromDescriptionName = this.balloonService.findSthLikeDescOrName(text);
+                //List<Balloon> fromName = this.balloonService.findSthLikeName(text);
+                List<Balloon> result = new ArrayList<>(fromType);
+                result.addAll(fromDescriptionName);
+                //result.addAll(fromName);
+                result.stream().distinct().collect(Collectors.toList());
+                model.addAttribute("listBalloons", result);
+            }
+            catch(Exception e){
+                String message = e.getMessage();
+            }
 
+        }
+        else
+        {
+            model.addAttribute("listBalloons", this.balloonService.listAll());
+        }
+        return "listBalloons";
+    }
 }

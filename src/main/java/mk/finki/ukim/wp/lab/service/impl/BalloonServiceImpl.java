@@ -4,8 +4,6 @@ import mk.finki.ukim.wp.lab.models.Balloon;
 import mk.finki.ukim.wp.lab.models.Manufacturer;
 import mk.finki.ukim.wp.lab.models.Type;
 import mk.finki.ukim.wp.lab.models.exceptions.ManufacturerNotFoundException;
-import mk.finki.ukim.wp.lab.repository.impl.InMemoryBalloonRepository;
-import mk.finki.ukim.wp.lab.repository.impl.InMemoryManufacturerRepository;
 import mk.finki.ukim.wp.lab.repository.jpa.BalloonRepository;
 import mk.finki.ukim.wp.lab.repository.jpa.ManufacturerRepository;
 import mk.finki.ukim.wp.lab.service.BalloonService;
@@ -27,12 +25,12 @@ public class BalloonServiceImpl implements BalloonService {
 
     @Override
     public List<Balloon> listAll() {
-        return balloonRepository.findAll();
+        return balloonRepository.findByOrderByNameAsc();
     }
 
     @Override
     public List<Balloon> searchByNameOrDescription(String text) {
-        return balloonRepository.findAllByNameOrDescription(text,text);
+        return balloonRepository.findAllByNameOrDescriptionOrderByName(text,text);
     }
     @Override
     public Optional<Balloon> findById(Long id) {
@@ -60,7 +58,17 @@ public class BalloonServiceImpl implements BalloonService {
     }
     @Override
     public List<Balloon> searchByType(String text){
-        List<Balloon> result = balloonRepository.findByType(Type.valueOf(text));
+        List<Balloon> result = balloonRepository.findByTypeOrderByName(Type.valueOf(text));
         return result;
+    }
+
+    @Override
+    public List<Balloon> findSthLikeDescOrName(String text) {
+        return this.balloonRepository.findByNameContainsOrDescriptionContains(text,text);
+    }
+
+    @Override
+    public List<Balloon> findSthLikeName(String text) {
+        return this.balloonRepository.findByNameContains(text);
     }
 }
