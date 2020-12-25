@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="miro@localhost" uuid="b787f397-3942-4420-8d9f-a9d9a434b8b2">
+    <data-source source="LOCAL" name="postgres@localhost" uuid="ff36585f-49fc-44c1-b97b-9141643cfdfd">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/miro</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
+      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
     </data-source>
   </component>
 </project>

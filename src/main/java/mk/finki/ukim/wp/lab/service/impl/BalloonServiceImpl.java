@@ -3,6 +3,7 @@ package mk.finki.ukim.wp.lab.service.impl;
 import mk.finki.ukim.wp.lab.models.Balloon;
 import mk.finki.ukim.wp.lab.models.Manufacturer;
 import mk.finki.ukim.wp.lab.models.Type;
+import mk.finki.ukim.wp.lab.models.exceptions.BalloonNotFoundException;
 import mk.finki.ukim.wp.lab.models.exceptions.ManufacturerNotFoundException;
 import mk.finki.ukim.wp.lab.repository.jpa.BalloonRepository;
 import mk.finki.ukim.wp.lab.repository.jpa.ManufacturerRepository;
@@ -49,6 +50,7 @@ public class BalloonServiceImpl implements BalloonService {
 
         Manufacturer manufacturer = this.manufacturerRepository.findById(manufacturerId)
                 .orElseThrow(() -> new ManufacturerNotFoundException(manufacturerId));
+        this.balloonRepository.findById(id).orElseThrow(() -> new BalloonNotFoundException(id));
         this.balloonRepository.deleteById(id);
         return this.balloonRepository.save(new Balloon(name,description, manufacturer,type));
     }

@@ -162,6 +162,7 @@ public class BalloonController {
         {
             model.addAttribute("listBalloons", this.balloonService.listAll());
         }
-        return "listBalloons";
+        model.addAttribute("bodyContent","listBalloons");
+        return "master-page";
     }
 }

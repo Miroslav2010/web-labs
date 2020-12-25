@@ -20,4 +20,9 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     public List<Manufacturer> findAll() {
         return manufacturerRepository.findAll();
     }
+
+    @Override
+    public Manufacturer save(String name,String address,String country){
+        return manufacturerRepository.save(new Manufacturer(name,address,country));
+    }
 }

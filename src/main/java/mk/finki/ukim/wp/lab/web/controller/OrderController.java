@@ -35,7 +35,8 @@ public class OrderController {
         }
         List<Order> orders = this.orderService.getOrders();
         model.addAttribute("orders", orders);
-        return "usersOrder";
+        model.addAttribute("bodyContent","usersOrder");
+        return "master-page";
     }
 
     @GetMapping("/confirm")
