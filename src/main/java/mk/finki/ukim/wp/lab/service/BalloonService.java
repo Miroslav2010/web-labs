@@ -14,4 +14,6 @@ public interface BalloonService {
     Balloon add(String name, String description, Long manufacturerId, Type tip);
     Balloon edit(Long id, String name, String description, Long manufacturerId,Type type);
     void deleteById(Long id);
+    List<Balloon> findSthLikeDescOrName(String text);
+    List<Balloon> findSthLikeName(String text);
 }
