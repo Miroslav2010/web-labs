@@ -1,62 +1,64 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Add balloon</title>
-</head>
-<body>
-<div>
-    <form action="/add" method="POST">
-        <div>
-            <input type="hidden"
-                   id="id"
-                   name="id"
-                   th:value="(${balloon} != null ? ${balloon.getId()} : 0)"
-                   required>
+<th:block xmlns:th="http://www.thymeleaf.org">
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <form action="/add" method="POST">
+                <div>
+                    <input type="hidden"
+                           id="id"
+                           name="id"
+                           th:value="(${balloon} != null ? ${balloon.getId()} : 0)"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Balloon name</label>
+                    <input class="form-control"
+                           type="text"
+                           id="name"
+                           name="name"
+                           th:value="(${balloon} != null ? ${balloon.getName()} : '')"
+                           required
+                           placeholder="Enter balloon name">
+                </div>
+                <div class="form-group">
+                    <label for="description">Balloon description</label>
+                    <input class="form-control"
+                            type="text"
+                           id="description"
+                           name="description"
+                           th:value="(${balloon} != null ? ${balloon.getDescription()} : '')"
+                           required
+                           placeholder="Enter balloon description">
+                </div>
+                <div class="form-group">
+                    <label for="manufacturer">Manufacturer</label>
+                    <select id="manufacturer" name="manufacturer" class="form-control">
+                        <option th:if="${balloon} != null"
+                                th:selected="${balloon.getManufacturer() != null && balloon.getManufacturer().getId() == man.getId()}"
+                                th:each="man : ${manufacturers}"
+                                th:value="${man.getId()}"
+                                th:text="${man.getName()}">
+                        </option>
+                        <option th:if="${balloon} == null"
+                                th:each="man : ${manufacturers}"
+                                th:value="${man.getId()}"
+                                th:text="${man.getName()}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select id="type" name="type" class="form-control">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a class="btn btn-secondary" type="button" href="/">Back</a>
+            </form>
         </div>
-        <div>
-            <label for="name">Balloon name</label>
-            <input type="text"
-                   id="name"
-                   name="name"
-                   th:value="(${balloon} != null ? ${balloon.getName()} : '')"
-                   required
-                   placeholder="Enter balloon name">
-        </div>
-        <div>
-            <label for="description">Balloon description</label>
-            <input type="text"
-                   id="description"
-                   name="description"
-                   th:value="(${balloon} != null ? ${balloon.getDescription()} : '')"
-                   required
-                   placeholder="Enter balloon description">
-        </div>
-        <div>
-            <label for="manufacturer">Manufacturer</label>
-            <select id="manufacturer" name="manufacturer">
-                <option th:if="${balloon} != null"
-                        th:selected="${balloon.getManufacturer() != null && balloon.getManufacturer().getId() == man.getId()}"
-                        th:each="man : ${manufacturers}"
-                        th:value="${man.getId()}"
-                        th:text="${man.getName()}">
-                </option>
-                <option th:if="${balloon} == null"
-                        th:each="man : ${manufacturers}"
-                        th:value="${man.getId()}"
-                        th:text="${man.getName()}">
-                </option>
-            </select>
-            <select id="type" name="type">
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-            </select>
-        </div>
-        <button type="submit">Submit</button>
-        <a type="button" href="/balloons">Back</a>
-    </form>
+    </div>
 </div>
-</body>
-</html>
+</th:block>

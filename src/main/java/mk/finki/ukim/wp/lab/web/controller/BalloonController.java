@@ -5,6 +5,7 @@ import mk.finki.ukim.wp.lab.service.BalloonService;
 import mk.finki.ukim.wp.lab.service.ManufacturerService;
 import mk.finki.ukim.wp.lab.service.OrderService;
 import mk.finki.ukim.wp.lab.service.ShoppingCartService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,8 @@ public class BalloonController {
             model.addAttribute("error",error);
         }
         model.addAttribute("listBalloons",this.balloonService.listAll());
-        return "listBalloons";
+        model.addAttribute("bodyContent","listBalloons");
+        return "master-page";
     }
 
     @GetMapping("/search")
@@ -63,16 +65,20 @@ public class BalloonController {
         {
             model.addAttribute("listBalloons", this.balloonService.listAll());
         }
-        return "listBalloons";
+        model.addAttribute("bodyContent","listBalloons");
+        return "master-page";
     }
 
     @GetMapping("/add-balloon")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addBalloonPage(Model model) {
         List<Manufacturer> manufacturers = this.manufacturerService.findAll();
         model.addAttribute("manufacturers", manufacturers);
-        return "add-balloon";
+        model.addAttribute("bodyContent","add-balloon");
+        return "master-page";
     }
     @GetMapping("/edit-form/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String editBalloonPage(@PathVariable Long id, Model model) {
         if(this.balloonService.findById(id).isPresent()){
             Balloon balloon = this.balloonService.findById(id).get();
@@ -81,7 +87,8 @@ public class BalloonController {
             model.addAttribute("manufacturers", manufacturers);
 
             model.addAttribute("balloon", balloon);
-            return "add-balloon";
+            model.addAttribute("bodyContent","add-balloon");
+            return "master-page";
         }
         return "redirect:/?error=BalloonNotFound";
     }
@@ -115,8 +122,9 @@ public class BalloonController {
     }
 
     @GetMapping("/selectBalloon")
-    public String getSelectBalloonSize(){
-        return "selectBalloonSize";
+    public String getSelectBalloonSize(Model model){
+        model.addAttribute("bodyContent","selectBalloonSize");
+        return "master-page";
     }
 
     @PostMapping("/selectBalloon")

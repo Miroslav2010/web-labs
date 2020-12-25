@@ -2,8 +2,8 @@ package mk.finki.ukim.wp.lab.service.impl;
 
 import mk.finki.ukim.wp.lab.models.Order;
 import mk.finki.ukim.wp.lab.models.User;
-import mk.finki.ukim.wp.lab.repository.impl.InMemoryOrderRepository;
 import mk.finki.ukim.wp.lab.repository.jpa.OrderRepository;
+import mk.finki.ukim.wp.lab.repository.jpa.UserRepository;
 import mk.finki.ukim.wp.lab.service.OrderService;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +12,16 @@ import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-    OrderRepository orderRepository;
-
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository) {
         this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public Order placeOrder(String balloonColor,String balloonSize, User user) {
+    public Order placeOrder(String balloonColor,String balloonSize, String username) {
+        User user = userRepository.findByUsername(username);
         return orderRepository.save(new Order(balloonColor,balloonSize,user));
     }
 

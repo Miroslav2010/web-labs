@@ -1,6 +1,7 @@
 package mk.finki.ukim.wp.lab.filter;
 
 import mk.finki.ukim.wp.lab.models.User;
+import org.springframework.context.annotation.Profile;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/*
 @WebFilter
 public class LoginFilter implements Filter {
 
@@ -40,4 +42,4 @@ public class LoginFilter implements Filter {
     public void destroy() {
 
     }
-}
+}*/

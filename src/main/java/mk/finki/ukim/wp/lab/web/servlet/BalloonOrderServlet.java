@@ -37,7 +37,7 @@ public class BalloonOrderServlet extends HttpServlet {
 
         String color=(String) req.getSession().getAttribute("chosenColor");
         String size=(String) req.getSession().getAttribute("chosenSize");
-        orderService.placeOrder(color,size,(User) req.getSession().getAttribute("user"));
+        orderService.placeOrder(color,size,req.getRemoteUser());
         resp.sendRedirect("/servlet/ConfirmationInfo");
     }
 }

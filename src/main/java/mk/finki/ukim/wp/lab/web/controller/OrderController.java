@@ -42,15 +42,16 @@ public class OrderController {
     public String getConfirmPage(HttpServletRequest request,Model model){
         model.addAttribute("ipaddress",request.getRemoteAddr());
         model.addAttribute("clientAgent",request.getHeader("User-Agent"));
-        return "confirmationInfo";
+        model.addAttribute("bodyContent","confirmationInfo");
+        return "master-page";
     }
 
     @PostMapping("/confirm")
     public void confirm(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        User user = (User)request.getSession().getAttribute("user");
+        String user = request.getRemoteUser();
         Order order = orderService.placeOrder((String)request.getSession().getAttribute("chosenColor"),
                 (String)request.getSession().getAttribute("chosenSize"),user);
-        shoppingCartService.addOrderToShoppingCart(user.getUsername(), order.getOrderId());
+        shoppingCartService.addOrderToShoppingCart(user, order.getOrderId());
         response.sendRedirect("/");
     }
 }
